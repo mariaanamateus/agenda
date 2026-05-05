@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Social Media — Maio 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#fdf8f4;--surface:#fffcfa;--border:#ede8e2;--text:#2d2520;--muted:#9e968e;
+    --pink:#f5c6c6;--pink-d:#c97f7f;--lilac:#d4c5e8;--lilac-d:#8b6bb1;
+    --yellow:#f5e6b8;--yellow-d:#c4a040;--green:#c8e6c9;--green-d:#5a9e60;
+    --blue:#c5d8f0;--blue-d:#4a7ab5;--peach:#f5d5c0;--peach-d:#c4784a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:24px 24px 14px;position:sticky;top:0;z-index:100;}
+  .hinner{max-width:900px;margin:0 auto;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  h1{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,30px);font-weight:600;letter-spacing:-.5px;}
+  h1 em{font-style:italic;font-weight:400;color:var(--muted);font-size:.7em;}
+  .pw{max-width:900px;margin:10px auto 0;background:var(--border);border-radius:99px;height:5px;overflow:hidden;}
+  .pb{height:100%;background:linear-gradient(90deg,#a8d5b5,#7ab8d4);border-radius:99px;transition:width .5s;}
+  .pl{display:block;max-width:900px;margin:4px auto 0;font-size:11px;color:var(--muted);}
+
+  .filters{max-width:900px;margin:16px auto 0;padding:0 24px;display:flex;gap:7px;flex-wrap:wrap;}
+  .fbtn{border:1.5px solid var(--border);background:var(--surface);border-radius:99px;padding:5px 13px;font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .fbtn.active,.fbtn:hover{background:var(--text);color:#fff;border-color:var(--text);}
+
+  .main{max-width:900px;margin:0 auto;padding:22px 24px 100px;}
+  .wgroup{margin-bottom:34px;}
+  .wlabel{font-family:'Playfair Display',serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .dgroup{margin-bottom:18px;}
+  .dheader{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .dname{font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;min-width:30px;}
+  .ddate{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;}
+  .dline{flex:1;height:1px;background:var(--border);}
+  .tasks{display:flex;flex-direction:column;gap:7px;}
+
+  .card{display:flex;align-items:center;gap:11px;background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:11px 14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+  .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;background:var(--cc,var(--border));}
+  .card:hover{border-color:#ccc;transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.06);}
+  .card.done{opacity:.5;}
+  .card.done .ctitle{text-decoration:line-through;color:var(--muted);}
+  .card.done::before{background:var(--green-d)!important;}
+  .cw{flex-shrink:0;width:21px;height:21px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s;}
+  .card.done .cw{background:var(--green-d);border-color:var(--green-d);}
+  .ci{opacity:0;color:white;font-size:11px;transition:opacity .2s;}
+  .card.done .ci{opacity:1;}
+  .cc{flex:1;min-width:0;}
+  .ctitle{font-size:13px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cmeta{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+  .tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;white-space:nowrap;}
+  .tt{background:var(--peach);color:var(--peach-d);}
+  .tp{background:var(--yellow);color:var(--yellow-d);}
+  .tx{background:var(--blue);color:var(--blue-d);}
+  .badge{font-size:10px;font-weight:600;padding:2px 9px;border-radius:99px;flex-shrink:0;white-space:nowrap;}
+  .delbtn{flex-shrink:0;background:none;border:none;color:var(--border);font-size:18px;cursor:pointer;padding:0 4px;line-height:1;transition:color .2s;display:none;}
+  .card:hover .delbtn{display:block;}
+  .delbtn:hover{color:var(--pink-d);}
+
+  .c-rei{background:var(--pink);color:var(--pink-d);}
+  .c-med{background:var(--lilac);color:var(--lilac-d);}
+  .c-qui{background:var(--yellow);color:var(--yellow-d);}
+  .c-rep{background:var(--peach);color:var(--peach-d);}
+  .c-vs1{background:var(--green);color:var(--green-d);}
+  .c-vs2{background:var(--blue);color:var(--blue-d);}
+  .c-uph{background:var(--pink);color:var(--pink-d);}
+  .c-upg{background:var(--lilac);color:var(--lilac-d);}
+  .c-eco{background:var(--green);color:var(--green-d);}
+  .c-jun{background:var(--yellow);color:var(--yellow-d);}
+  .c-custom{background:var(--blue);color:var(--blue-d);}
+
+  .card[data-c="rei"]{--cc:var(--pink-d);}
+  .card[data-c="med"]{--cc:var(--lilac-d);}
+  .card[data-c="qui"]{--cc:var(--yellow-d);}
+  .card[data-c="rep"]{--cc:var(--peach-d);}
+  .card[data-c="vs1"]{--cc:var(--green-d);}
+  .card[data-c="vs2"]{--cc:var(--blue-d);}
+  .card[data-c="uph"]{--cc:var(--pink-d);}
+  .card[data-c="upg"]{--cc:var(--lilac-d);}
+  .card[data-c="eco"]{--cc:var(--green-d);}
+  .card[data-c="jun"]{--cc:var(--yellow-d);}
+  .card[data-c="custom"]{--cc:var(--blue-d);}
+
+  .empty{text-align:center;color:var(--muted);font-size:14px;padding:48px 0;font-style:italic;}
+
+  /* FAB */
+  .fab{position:fixed;bottom:24px;right:24px;z-index:200;width:52px;height:52px;border-radius:50%;background:var(--text);color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;}
+  .fab:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(0,0,0,.22);}
+
+  /* MODAL */
+  .overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(45,37,32,.38);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px;}
+  .overlay.open{display:flex;}
+  .modal{background:var(--surface);border-radius:20px;padding:28px 24px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:su .25s ease;}
+  @keyframes su{from{transform:translateY(18px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .modal h2{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:20px;}
+  .fg{margin-bottom:14px;}
+  .fg label{display:block;font-size:11px;font-weight:500;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.8px;}
+  .fg input,.fg select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s;appearance:auto;}
+  .fg input:focus,.fg select:focus{border-color:#bbb;}
+  .mactions{display:flex;gap:10px;margin-top:20px;}
+  .bcancel{flex:1;padding:11px;border-radius:10px;border:1.5px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;color:var(--muted);}
+  .bsave{flex:2;padding:11px;border-radius:10px;border:none;background:var(--text);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .2s;}
+  .bsave:hover{opacity:.85;}
+
+  .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:white;padding:9px 18px;border-radius:99px;font-size:13px;font-weight:500;z-index:999;transition:transform .3s;pointer-events:none;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+
+  @media(max-width:600px){
+    header{padding:18px 16px 12px;}
+    .main{padding:16px 16px 100px;}
+    .filters{padding:0 16px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hinner">
+    <h1>Agenda <em>Social Media</em></h1>
+    <span style="font-size:12px;color:var(--muted);margin-left:auto">Maio 2026</span>
+  </div>
+  <div class="pw"><div class="pb" id="pb" style="width:0%"></div></div>
+  <span class="pl" id="pl">carregando...</span>
+</header>
+
+<div class="filters" id="filters">
+  <button class="fbtn active" data-f="all">Todos</button>
+  <button class="fbtn" data-f="rei">Rei do Camarão</button>
+  <button class="fbtn" data-f="med">Mediterra</button>
+  <button class="fbtn" data-f="qui">Quiosque Girassol</button>
+  <button class="fbtn" data-f="rep">Repool</button>
+  <button class="fbtn" data-f="vs1">Villa do Sol I</button>
+  <button class="fbtn" data-f="vs2">Villa do Sol II</button>
+  <button class="fbtn" data-f="uph">UPH</button>
+  <button class="fbtn" data-f="upg">UPG</button>
+  <button class="fbtn" data-f="eco">ECO</button>
+  <button class="fbtn" data-f="jun">Jundus</button>
+  <button class="fbtn" data-f="custom">➕ Extras</button>
+</div>
+
+<main class="main" id="main"></main>
+
+<button class="fab" id="fab">+</button>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Novo compromisso</h2>
+    <div class="fg">
+      <label>Data</label>
+      <input type="date" id="fDate" min="2026-05-01" max="2026-12-31">
+    </div>
+    <div class="fg">
+      <label>Cliente</label>
+      <select id="fClient">
+        <option value="rei">Rei do Camarão</option>
+        <option value="med">Mediterra</option>
+        <option value="qui">Quiosque Girassol</option>
+        <option value="rep">Repool</option>
+        <option value="vs1">Villa do Sol I</option>
+        <option value="vs2">Villa do Sol II</option>
+        <option value="uph">UPH</option>
+        <option value="upg">UPG</option>
+        <option value="eco">ECO</option>
+        <option value="jun">Jundus</option>
+        <option value="custom">Outro</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Tarefa / Descrição</label>
+      <input type="text" id="fTipo" placeholder="Ex: Reunião, Carrossel, Reels...">
+    </div>
+    <div class="fg">
+      <label>Prazo / Observação (opcional)</label>
+      <input type="text" id="fPrazo" placeholder="Ex: Até 19h">
+    </div>
+    <div class="mactions">
+      <button class="bcancel" id="mcancel">Cancelar</button>
+      <button class="bsave" id="msave">Salvar compromisso</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CLIENTS={rei:{name:'Rei do Camarão',cls:'c-rei'},med:{name:'Mediterra',cls:'c-med'},qui:{name:'Quiosque Girassol',cls:'c-qui'},rep:{name:'Repool',cls:'c-rep'},vs1:{name:'Villa do Sol I',cls:'c-vs1'},vs2:{name:'Villa do Sol II',cls:'c-vs2'},uph:{name:'UPH',cls:'c-uph'},upg:{name:'UPG',cls:'c-upg'},eco:{name:'ECO',cls:'c-eco'},jun:{name:'Jundus',cls:'c-jun'},custom:{name:'Extra',cls:'c-custom'}};
+const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const MONTHS=['Jan','Fev','Mar','Abr','Maio','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+// May 2026 weekdays
+const WD=[4,5,6,7,8,11,12,13,14,15,18,19,20,21,22,25,26,27,28,29];
+function ds(d){return`2026-05-${String(d).padStart(2,'0')}`;}
+let _i=0;
+function tk(date,client,tipo,prazo=''){return{id:'p'+(_i++),date,client,tipo,prazo,preset:true};}
+
+const PRESET=[
+  // REI DO CAMARÃO
+  ...[5,12,19,26].map(d=>tk(ds(d),'rei','Carrossel','Até 19h')),
+  ...[7,14,21,28].map(d=>tk(ds(d),'rei','Reels','Até 19h')),
+  ...WD.map(d=>tk(ds(d),'rei','Stories','Hr. almoço')),
+  ...WD.map(d=>tk(ds(d),'rei','Resposta Google','')),
+  // MEDITERRA
+  ...[5,12,19,26].map(d=>tk(ds(d),'med','Carrossel','Até 19h')),
+  ...[7,14,21,28].map(d=>tk(ds(d),'med','Reels','Até 19h')),
+  ...WD.map(d=>tk(ds(d),'med','Stories','Hr. almoço')),
+  // QUIOSQUE GIRASSOL
+  ...[6,13,20,27].map(d=>tk(ds(d),'qui','Carrossel','Até 19h')),
+  ...[8,15,22,29].map(d=>tk(ds(d),'qui','Reels','Até 19h')),
+  ...WD.map(d=>tk(ds(d),'qui','Stories','Hr. almoço')),
+  // REPOOL
+  ...[5,19].map(d=>tk(ds(d),'rep','Carrossel','')),
+  ...[12,26].map(d=>tk(ds(d),'rep','Reels','')),
+  ...WD.flatMap(d=>[tk(ds(d),'rep','Stories',''),tk(ds(d),'rep','Stories','')]),
+  // VILLA DO SOL I
+  ...[6,20].map(d=>tk(ds(d),'vs1','Post','')),
+  ...[6,13,20,27].flatMap(d=>[tk(ds(d),'vs1','Stories',''),tk(ds(d),'vs1','Stories','')]),
+  // VILLA DO SOL II
+  ...[7,21].map(d=>tk(ds(d),'vs2','Post','')),
+  ...[7,14,21,28].flatMap(d=>[tk(ds(d),'vs2','Stories',''),tk(ds(d),'vs2','Stories','')]),
+  // UPH — Post dia sim/dia não (4,6,8,11,13,15,18,20,22,25,27,29) + Stories todo dia
+  ...[4,6,8,11,13,15,18,20,22,25,27,29].map(d=>tk(ds(d),'uph','Post','')),
+  ...WD.flatMap(d=>[tk(ds(d),'uph','Stories',''),tk(ds(d),'uph','Stories','')]),
+  // UPG — Post dia sim/dia não (5,7,12,14,19,21,26,28) + Stories todo dia
+  ...[5,7,12,14,19,21,26,28].map(d=>tk(ds(d),'upg','Post','')),
+  ...WD.flatMap(d=>[tk(ds(d),'upg','Stories',''),tk(ds(d),'upg','Stories','')]),
+  // ECO — Post dia sim/dia não (4,6,8,11,13,15,18,20,22,25,27,29) + Stories todo dia
+  ...[4,6,8,11,13,15,18,20,22,25,27,29].map(d=>tk(ds(d),'eco','Post','')),
+  ...WD.flatMap(d=>[tk(ds(d),'eco','Stories',''),tk(ds(d),'eco','Stories','')]),
+  // JUNDUS
+  ...WD.map(d=>tk(ds(d),'jun','Resposta Google','')),
+];
+
+const SK_DONE='ag_done_maio26';
+const SK_CUST='ag_cust_maio26';
+let done=JSON.parse(localStorage.getItem(SK_DONE)||'{}');
+let custom=JSON.parse(localStorage.getItem(SK_CUST)||'[]');
+let filter='all';
+
+function save(){localStorage.setItem(SK_DONE,JSON.stringify(done));localStorage.setItem(SK_CUST,JSON.stringify(custom));}
+function all(){return[...PRESET,...custom];}
+
+function weekLbl(ds){
+  const d=new Date(ds+'T12:00:00').getDate();
+  if(d<=8)return'Semana 1 — 04 a 08 de Maio';
+  if(d<=15)return'Semana 2 — 11 a 15 de Maio';
+  if(d<=22)return'Semana 3 — 18 a 22 de Maio';
+  return'Semana 4 — 25 a 29 de Maio';
+}
+function fmt(ds){const d=new Date(ds+'T12:00:00');return{day:DAYS[d.getDay()],full:`${d.getDate()} de ${MONTHS[d.getMonth()]}`};}
+
+function render(){
+  const main=document.getElementById('main');
+  const tasks=all();
+  const filtered=filter==='all'?tasks:tasks.filter(t=>t.client===filter);
+  if(!filtered.length){main.innerHTML='<p class="empty">Nenhuma tarefa encontrada.</p>';upProg(filtered);return;}
+
+  const byWeek={};
+  filtered.forEach(t=>{
+    const w=weekLbl(t.date);
+    if(!byWeek[w])byWeek[w]={};
+    if(!byWeek[w][t.date])byWeek[w][t.date]=[];
+    byWeek[w][t.date].push(t);
+  });
+
+  let h='';
+  for(const[w,days]of Object.entries(byWeek)){
+    h+=`<div class="wgroup"><div class="wlabel">${w}</div>`;
+    for(const date of Object.keys(days).sort()){
+      const{day,full}=fmt(date);
+      h+=`<div class="dgroup"><div class="dheader"><span class="dname">${day}</span><span class="ddate">${full}</span><div class="dline"></div></div><div class="tasks">`;
+      days[date].forEach(t=>{
+        const dn=!!done[t.id];
+        const c=CLIENTS[t.client]||CLIENTS.custom;
+        const isCust=!t.preset;
+        h+=`<div class="card ${dn?'done':''}" data-c="${t.client}" data-id="${t.id}" onclick="toggle('${t.id}')">
+          <div class="cw"><span class="ci">✓</span></div>
+          <div class="cc">
+            <div class="ctitle">${t.tipo}${t.prazo?' · '+t.prazo:''}</div>
+            <div class="cmeta">
+              <span class="tag tt">${t.tipo}</span>
+              ${t.prazo?`<span class="tag tp">⏰ ${t.prazo}</span>`:''}
+              ${isCust?`<span class="tag tx">➕ extra</span>`:''}
+            </div>
+          </div>
+          <span class="badge ${c.cls}">${c.name}</span>
+          ${isCust?`<button class="delbtn" onclick="del(event,'${t.id}')">×</button>`:''}
+        </div>`;
+      });
+      h+=`</div></div>`;
+    }
+    h+=`</div>`;
+  }
+  main.innerHTML=h;
+  upProg(filtered);
+}
+
+function upProg(filtered){
+  const total=filtered.length;
+  const comp=filtered.filter(t=>done[t.id]).length;
+  const pct=total>0?Math.round(comp/total*100):0;
+  document.getElementById('pb').style.width=pct+'%';
+  document.getElementById('pl').textContent=`${comp} de ${total} tarefas concluídas (${pct}%)`;
+}
+
+function toggle(id){
+  done[id]=!done[id];save();
+  const card=document.querySelector(`[data-id="${id}"]`);
+  if(card)card.classList.toggle('done',!!done[id]);
+  toast(done[id]?'✓ Concluída!':'Reaberta');
+  const filtered=filter==='all'?all():all().filter(t=>t.client===filter);
+  upProg(filtered);
+}
+
+function del(e,id){
+  e.stopPropagation();
+  custom=custom.filter(t=>t.id!==id);
+  delete done[id];save();render();toast('Compromisso removido');
+}
+
+document.getElementById('filters').addEventListener('click',e=>{
+  if(!e.target.matches('.fbtn'))return;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  filter=e.target.dataset.f;render();
+});
+
+// MODAL
+const ov=document.getElementById('overlay');
+document.getElementById('fab').addEventListener('click',()=>{
+  document.getElementById('fDate').value='2026-05-'+String(new Date().getDate()).padStart(2,'0')||'2026-05-05';
+  document.getElementById('fTipo').value='';
+  document.getElementById('fPrazo').value='';
+  ov.classList.add('open');
+});
+document.getElementById('mcancel').addEventListener('click',()=>ov.classList.remove('open'));
+ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('open');});
+document.getElementById('msave').addEventListener('click',()=>{
+  const date=document.getElementById('fDate').value;
+  const client=document.getElementById('fClient').value;
+  const tipo=document.getElementById('fTipo').value.trim();
+  const prazo=document.getElementById('fPrazo').value.trim();
+  if(!date||!tipo){toast('Preencha a data e a tarefa!');return;}
+  custom.push({id:'c'+Date.now(),date,client,tipo,prazo,preset:false});
+  save();ov.classList.remove('open');render();toast('✓ Compromisso adicionado!');
+});
+
+let tt;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),2200);
+}
+
+render();
+</script>
+</body>
+</html>
