@@ -54,6 +54,13 @@
   .event-list { display: flex; flex-direction: column; gap: 8px; }
   .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s; }
   .event-card:hover { box-shadow: var(--shadow); }
+  .event-card.done { background: #f4fbf6; border-color: #b7e4c7; opacity: 0.85; }
+  .event-card.done .event-client { text-decoration: line-through; color: var(--muted); }
+  .event-card.done .event-task { text-decoration: line-through; }
+  .done-badge { font-size: 0.72rem; background: #2ecc71; color: white; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+  .btn-done { background: none; border: 1px solid #2ecc71; color: #27ae60; }
+  .btn-done:hover { background: #2ecc71; color: white; }
+  .btn-done.is-done { background: #2ecc71; color: white; }
   .event-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .event-info { flex: 1; }
   .event-client { font-weight: 600; font-size: 0.9rem; }
@@ -374,10 +381,10 @@ function renderList() {
   } else {
     el.innerHTML = slice.map(e => {
       const color = e.color || clientColors[e.client] || '#999';
-      return `<div class="event-card">
+      return `<div class="event-card ${e.done?'done':''}">
         <div class="event-dot" style="background:${color}"></div>
         <div class="event-info">
-          <div class="event-client">${e.client}</div>
+          <div class="event-client">${e.client} ${e.done?'<span class="done-badge">✓ Concluído</span>':''}</div>
           <div class="event-task">${e.task}</div>
           <div class="event-meta">
             <span>📅 ${formatDateBR(e.date)}</span>
@@ -386,6 +393,7 @@ function renderList() {
           </div>
         </div>
         <div class="event-actions">
+          <button class="btn btn-done btn-sm ${e.done?'is-done':''}" onclick="toggleDone(${e.id})" title="${e.done?'Marcar como pendente':'Marcar como concluído'}">✓</button>
           <button class="btn btn-ghost btn-sm" onclick="editEvent(${e.id})">✏️</button>
           <button class="btn btn-danger btn-sm" onclick="deleteEvent(${e.id})">🗑️</button>
         </div>
@@ -441,8 +449,9 @@ function renderCalendar() {
       const color=e.color||clientColors[e.client]||'#999';
       const pill=document.createElement('span'); pill.className='cal-pill';
       pill.style.background=color;
-      pill.title=e.client+' · '+e.task+' · '+e.time;
-      pill.textContent=e.client.split(' ')[0]+' '+e.time;
+      if(e.done) pill.style.opacity='0.55';
+      pill.title=e.client+' · '+e.task+' · '+e.time+(e.done?' ✓':'');
+      pill.textContent=(e.done?'✓ ':'')+e.client.split(' ')[0]+' '+e.time;
       cell.appendChild(pill);
     });
     if (dayEvs.length>3) {
@@ -469,14 +478,15 @@ function showDayModal(dateStr) {
   } else {
     list.innerHTML=dayEvs.map(e=>{
       const color=e.color||clientColors[e.client]||'#999';
-      return `<div class="event-card" style="padding:10px 14px">
+      return `<div class="event-card ${e.done?'done':''}" style="padding:10px 14px">
         <div class="event-dot" style="background:${color}"></div>
         <div class="event-info">
-          <div class="event-client" style="font-size:0.85rem">${e.client}</div>
+          <div class="event-client" style="font-size:0.85rem">${e.client} ${e.done?'<span class="done-badge">✓</span>':''}</div>
           <div class="event-task">${e.task}</div>
           <div class="event-meta"><span>🕐 ${e.time}</span>${e.obs?'<span>📝 '+e.obs+'</span>':''}</div>
         </div>
         <div class="event-actions">
+          <button class="btn btn-done btn-sm ${e.done?'is-done':''}" onclick="toggleDoneDay(${e.id},'${dateStr}')" title="${e.done?'Desmarcar':'Concluído'}">✓</button>
           <button class="btn btn-ghost btn-sm" onclick="closeDayModal();editEvent(${e.id})">✏️</button>
           <button class="btn btn-danger btn-sm" onclick="deleteFromDay(${e.id},'${dateStr}')">🗑️</button>
         </div>
@@ -559,6 +569,18 @@ function saveEvent(){
   }
   save(); closeModal(); populateFilters(); updateClientSuggestions();
   renderList(); renderCalendar(); renderReport();
+}
+
+function toggleDone(id){
+  const idx=events.findIndex(e=>e.id===id); if(idx<0)return;
+  events[idx].done=!events[idx].done; save();
+  renderList(); renderCalendar(); renderReport();
+}
+
+function toggleDoneDay(id,dateStr){
+  const idx=events.findIndex(e=>e.id===id); if(idx<0)return;
+  events[idx].done=!events[idx].done; save();
+  showDayModal(dateStr); renderCalendar(); renderList(); renderReport();
 }
 
 function deleteEvent(id){
